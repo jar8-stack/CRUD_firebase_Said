@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script  src="http://www.gstatic.com/firebasejs/live/3.1/firebase.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDEdd1lTWJmDKLcZum_uXGww6NTlk31BeA",
+            authDomain: "cerveza-idts.firebaseapp.com",
+            databaseURL: "https://cerveza-idts.firebaseio.com",
+            projectId: "cerveza-idts",
+            storageBucket: "cerveza-idts.appspot.com",
+            messagingSenderId: "74063738202",
+            appId: "1:74063738202:web:c62e5ddd487e0b8c30ef63"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var refDB= firebase.database().ref(); 
+
+    function actualizar(cervezaId){
+        
+        var descripcion= document.getElementById('descripcion');
+        var tipo= document.getElementById('tipo');
+        var precio= document.getElementById('precio');
+        
+        firebase.database().ref().child('cerveza/'+cervezaId).set({
+            descripcion: descripcion.value, 
+            tipo: tipo.value, 
+            precio: precio.value        
+        });
+
+            
+        alert('caerveza actualizada')
+        location.reload();
+    }
+
+
+    </script>
+
+    <h1>Actualizar cerveza</h1>
+    <input type="text" name="codigo" id="codigo" placeholder="Escriba el codigo"><br>
+    <input type="text" name="descripcion" id="descripcion" placeholder="Escriba la descripción"><br>
+    <input type="text" name="precio" id="precio" placeholder="Escriba el precio"><br>
+    <input type="text" name="tipo" id="tipo" placeholder="Escriba el tipo de cerveza"><br>
+    <button onclick="actualizar(codigo.value)" > Actualizar cerveza</button>
+
+</body>
+</html>

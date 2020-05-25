@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script  src="http://www.gstatic.com/firebasejs/live/3.1/firebase.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDEdd1lTWJmDKLcZum_uXGww6NTlk31BeA",
+            authDomain: "cerveza-idts.firebaseapp.com",
+            databaseURL: "https://cerveza-idts.firebaseio.com",
+            projectId: "cerveza-idts",
+            storageBucket: "cerveza-idts.appspot.com",
+            messagingSenderId: "74063738202",
+            appId: "1:74063738202:web:c62e5ddd487e0b8c30ef63"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    var refDB= firebase.database().ref().child('cerveza');
+    refDB.on('value', gotData, errData);    
+
+  function gotData(data){
+    var cervezas= data.val(); 
+    var keys= Object.keys(cervezas); 
+    for(let i=0; i<keys.length; i++){
+        var k= keys[i]; 
+        var descripcion= cervezas[k].descripcion; 
+        var precio= cervezas[k].precio; 
+        var tipo= cervezas[k].tipo; 
+        var tBody= document.getElementById('dataTable').lastElementChild;
+        var tr1= document.createElement('tr');
+        tBody.appendChild(tr1);
+        var dato1=document.createElement('td');
+        dato1.innerText= descripcion; 
+        tr1.appendChild(dato1);
+        var dato2=document.createElement('td');
+        dato2.innerText= precio; 
+        tr1.appendChild(dato2);
+        var dato3=document.createElement('td');
+        dato3.innerText= tipo;
+        tr1.appendChild(dato3);
+
+    }
+  }
+    function errData(err){
+        console.log('error puto');
+        console.log(err);
+    }
+
+
+    function borrar(id){
+        refDB.child(id).remove();
+        location.reload();
+    }
+
+    </script>
+
+
+    <h1>Lista de cervezas</h1>
+    <table id="dataTable" border="1" width="800">
+        <thead>
+            <th>descripcion</th> 
+            <th>precio</th>
+            <th>tipo</th>    
+        </thead>
+    
+        <tbody>
+    
+        </tbody>
+    </table>
+    <br>
+    <input name="codigo" type="text" id="codigo" class="input" value="" placeholder="Inserte codigo de cerveza" required>   
+    <button id="submit_button" type="submit" onclick="borrar(codigo.value)">borrar cerveza</button>
+</body>
+</html>
